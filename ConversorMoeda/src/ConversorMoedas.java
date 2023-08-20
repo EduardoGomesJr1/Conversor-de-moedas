@@ -25,7 +25,7 @@ public class ConversorMoedas {
                 opcoes[0]
         );
 
-        if(escolha != null) {
+        if (escolha != null) {
             switch (escolha.charAt(0)) {
                 case '1':
                     // chame a função para a conversão de moedas aqui
@@ -44,7 +44,8 @@ public class ConversorMoedas {
         }
 
     }
-    public static  void realizarConversaoDeMoedas() {
+
+    public static void realizarConversaoDeMoedas() {
         String[] moedas = {"Real (BRL", "Dólar (USD)", "Euro (EUR)"}; //adicionar mais moedas
 
         String moedaEscolhida = (String) JOptionPane.showInputDialog(
@@ -58,26 +59,57 @@ public class ConversorMoedas {
         );
 
         if (moedaEscolhida != null) {
-            double valor = 0.0;
-            boolean entradaValida = false;
+            double valor = obterValorValidado();
 
-            while (!entradaValida) {
-                String valorStr = JOptionPane.showInputDialog(
-                        null,
-                        "Digite o valor a ser convertido",
-                        "Conversor de Moedas - Digite o Valor",
-                        JOptionPane.PLAIN_MESSAGE
-                );
-
-                try {
-                    valor = Double.parseDouble(valorStr);
-                    entradaValida = true;
-                } catch (NumberFormatException e ) {
-                    JOptionPane.showInputDialog(null, "Valor inválido. Digite um valor válido.", "Erro", JOptionPane.ERROR_MESSAGE);
+            String[] moedasDestino = new String[moedas.length - 1];
+            int index = 0;
+            for (String moeda : moedas) {
+                if (!moeda.equals(moedaEscolhida)) {
+                    moedasDestino[index] = moeda;
+                    index++;
                 }
             }
-            // Agora pode realizar a conversão com o valor inserido
-            // e a moeda escolhida pelo usuário
+
+            String moedaDestinoEscolhida = (String) JOptionPane.showInputDialog(
+                    null,
+                    "Escolha a moeda de destino:",
+                    "Conversor de Moedas - Escolha a Moeda de Destino",
+                    JOptionPane.PLAIN_MESSAGE,
+                    null,
+                    moedasDestino,
+                    moedasDestino[0]
+            );
+
+            if (moedaDestinoEscolhida != null) {
+                //agora pode realizar a conversao com o valor, a moeda escolhida
+                // como origem e a moeda escolhida como destino
+            }
         }
+    }
+
+    public static double obterValorValidado() {
+        double valor = 0.0;
+        boolean entradaValida = false;
+
+        while (!entradaValida) {
+            String valorStr = JOptionPane.showInputDialog(
+                    null,
+                    "Digite o valor a ser convertido",
+                    "Conversor de Moedas - Digite o Valor",
+                    JOptionPane.PLAIN_MESSAGE
+            );
+
+            try {
+                valor = Double.parseDouble(valorStr);
+                entradaValida = true;
+            } catch (NumberFormatException e) {
+                JOptionPane.showInputDialog(null, "Valor inválido. Digite um valor válido.", "Erro", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+        // Agora pode realizar a conversão com o valor inserido
+        // e a moeda escolhida pelo usuário
+
+
+        return valor;
     }
 }
