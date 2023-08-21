@@ -81,6 +81,10 @@ public class ConversorMoedas {
             );
 
             if (moedaDestinoEscolhida != null) {
+                double valorConvertido = realizarConversao(valor, moedaEscolhida, moedaDestinoEscolhida);
+                mostrarResultado(valor,moedaEscolhida, valorConvertido, moedaDestinoEscolhida);
+
+
                 //agora pode realizar a conversao com o valor, a moeda escolhida
                 // como origem e a moeda escolhida como destino
             }
@@ -111,5 +115,16 @@ public class ConversorMoedas {
 
 
         return valor;
+    }
+
+    public  static double realizarConversao(double valor, String moedaOrigem, String moedaDestino) {
+        // implemente a lógica real de conversão aqui
+        // retorna o valor convertido
+        return  valor * 2.0; //exemplo de conversão fictícia
+    }
+
+    public  static void mostrarResultado(double valorOrigem, String moedaOrigem, double valorDestino, String moedaDestino) {
+        String mensagem = String.format("%.2f %s é equivalente a %.2f %s.", valorOrigem, moedaOrigem, valorDestino, moedaDestino);
+        JOptionPane.showInputDialog(null, mensagem, "Resultado da Conversão", JOptionPane.INFORMATION_MESSAGE);
     }
 }
