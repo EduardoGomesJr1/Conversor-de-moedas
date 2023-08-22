@@ -103,10 +103,10 @@ public class ConversorMoedas {
                     JOptionPane.PLAIN_MESSAGE
             );
 
-            try {
+            if (validarEntradaNumerica(valorStr)){
                 valor = Double.parseDouble(valorStr);
                 entradaValida = true;
-            } catch (NumberFormatException e) {
+            } else  {
                 JOptionPane.showInputDialog(null, "Valor inválido. Digite um valor válido.", "Erro", JOptionPane.ERROR_MESSAGE);
             }
         }
@@ -115,6 +115,15 @@ public class ConversorMoedas {
 
 
         return valor;
+    }
+
+    public static boolean validarEntradaNumerica(String valorStr) {
+        try {
+            Double.parseDouble(valorStr);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
     }
 
     public  static double realizarConversao(double valor, String moedaOrigem, String moedaDestino) {
