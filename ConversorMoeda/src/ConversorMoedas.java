@@ -28,7 +28,7 @@ public class ConversorMoedas {
         if (escolha != null) {
             switch (escolha.charAt(0)) {
                 case '1':
-                    // chame a função para a conversão de moedas aqui
+                    realizarConversaoDeMoedas();
                     break;
                 case '2':
                     // chame a função para outra opção de convesão aqui
@@ -82,8 +82,24 @@ public class ConversorMoedas {
 
             if (moedaDestinoEscolhida != null) {
                 double valorConvertido = realizarConversao(valor, moedaEscolhida, moedaDestinoEscolhida);
-                mostrarResultado(valor,moedaEscolhida, valorConvertido, moedaDestinoEscolhida);
+                mostrarResultado(valor, moedaEscolhida, valorConvertido, moedaDestinoEscolhida);
 
+                int opcao = JOptionPane.showConfirmDialog(
+                        null,
+                        "Deseja fazer outra conversão?",
+                        "Continuar?",
+                        JOptionPane.YES_NO_CANCEL_OPTION
+                );
+
+                if (opcao == JOptionPane.YES_OPTION) {
+                    exibirMenu();
+                } else if (opcao == JOptionPane.NO_OPTION) {
+                    JOptionPane.showMessageDialog(null, "Programa finalizado.", "Fim do programa", JOptionPane.INFORMATION_MESSAGE);
+                    System.exit(0); //Encerrar programa
+                } else if (opcao == JOptionPane.CANCEL_OPTION) {
+                    JOptionPane.showMessageDialog(null, "Programa concluído.", "Fim do programa", JOptionPane.INFORMATION_MESSAGE);
+                    System.exit(0); // Encerrar programa
+                }
 
                 //agora pode realizar a conversao com o valor, a moeda escolhida
                 // como origem e a moeda escolhida como destino
@@ -103,10 +119,10 @@ public class ConversorMoedas {
                     JOptionPane.PLAIN_MESSAGE
             );
 
-            if (validarEntradaNumerica(valorStr)){
+            if (validarEntradaNumerica(valorStr)) {
                 valor = Double.parseDouble(valorStr);
                 entradaValida = true;
-            } else  {
+            } else {
                 JOptionPane.showInputDialog(null, "Valor inválido. Digite um valor válido.", "Erro", JOptionPane.ERROR_MESSAGE);
             }
         }
@@ -126,13 +142,13 @@ public class ConversorMoedas {
         }
     }
 
-    public  static double realizarConversao(double valor, String moedaOrigem, String moedaDestino) {
+    public static double realizarConversao(double valor, String moedaOrigem, String moedaDestino) {
         // implemente a lógica real de conversão aqui
         // retorna o valor convertido
-        return  valor * 2.0; //exemplo de conversão fictícia
+        return valor * 2.0; //exemplo de conversão fictícia
     }
 
-    public  static void mostrarResultado(double valorOrigem, String moedaOrigem, double valorDestino, String moedaDestino) {
+    public static void mostrarResultado(double valorOrigem, String moedaOrigem, double valorDestino, String moedaDestino) {
         String mensagem = String.format("%.2f %s é equivalente a %.2f %s.", valorOrigem, moedaOrigem, valorDestino, moedaDestino);
         JOptionPane.showInputDialog(null, mensagem, "Resultado da Conversão", JOptionPane.INFORMATION_MESSAGE);
     }
