@@ -9,31 +9,22 @@ public class ConversorMoedas {
     }
 
     public static void exibirMenu() {
-        String[] opcoes = {
-                "Conversão de Moedas",
-                "Conversão de Temperatura",
-                "Sair"
-        };
+        boolean opcaoValida = false;
 
-        String escolha = (String) JOptionPane.showInputDialog(
-                null,
-                "Escolha uma opção:",
-                "Conversor de Moedas",
-                JOptionPane.PLAIN_MESSAGE,
-                null,
-                opcoes,
-                opcoes[0]
-        );
+
+        String[] opcoes = {"Conversão de Moedas", "Conversão de Temperatura", "Sair"};
+
+        String escolha = (String) JOptionPane.showInputDialog(null, "Escolha uma opção:", "Conversor de Moedas", JOptionPane.PLAIN_MESSAGE, null, opcoes, opcoes[0]);
 
         if (escolha != null) {
-            switch (escolha.charAt(0)) {
-                case '1':
+            switch (escolha) {
+                case "Conversão de Moedas":
                     realizarConversaoDeMoedas();
                     break;
-                case '2':
-                    // chame a função para outra opção de convesão aqui
+                case "Conversão de Temperatura":
+                    converterTemperatura();
                     break;
-                case '3':
+                case "Sair":
                     JOptionPane.showMessageDialog(null, "Obrigado por usar o Conversor de Moedas!", "Conversor de Moedas", JOptionPane.INFORMATION_MESSAGE);
                     System.exit(0);
                     break;
@@ -45,18 +36,11 @@ public class ConversorMoedas {
 
     }
 
-    public static void realizarConversaoDeMoedas() {
-        String[] moedas = {"Real (BRL", "Dólar (USD)", "Euro (EUR)"}; //adicionar mais moedas
 
-        String moedaEscolhida = (String) JOptionPane.showInputDialog(
-                null,
-                "Escolha a moeda de conversão:",
-                "Conversor de Moedas - Escolha a Moeda",
-                JOptionPane.PLAIN_MESSAGE,
-                null,
-                moedas,
-                moedas[0]
-        );
+    public static void realizarConversaoDeMoedas() {
+        String[] moedas = {"Real (BRL)", "Dólar (USD)", "Euro (EUR)"};
+
+        String moedaEscolhida = (String) JOptionPane.showInputDialog(null, "Escolha a moeda de conversão:", "Conversor de Moedas - Escolha a Moeda", JOptionPane.PLAIN_MESSAGE, null, moedas, moedas[0]);
 
         if (moedaEscolhida != null) {
             double valor = obterValorValidado();
@@ -70,39 +54,25 @@ public class ConversorMoedas {
                 }
             }
 
-            String moedaDestinoEscolhida = (String) JOptionPane.showInputDialog(
-                    null,
-                    "Escolha a moeda de destino:",
-                    "Conversor de Moedas - Escolha a Moeda de Destino",
-                    JOptionPane.PLAIN_MESSAGE,
-                    null,
-                    moedasDestino,
-                    moedasDestino[0]
-            );
+            String moedaDestinoEscolhida = (String) JOptionPane.showInputDialog(null, "Escolha a moeda de destino:", "Conversor de Moedas - Escolha a Moeda de Destino", JOptionPane.PLAIN_MESSAGE, null, moedasDestino, moedasDestino[0]);
 
             if (moedaDestinoEscolhida != null) {
                 double valorConvertido = realizarConversao(valor, moedaEscolhida, moedaDestinoEscolhida);
                 mostrarResultado(valor, moedaEscolhida, valorConvertido, moedaDestinoEscolhida);
 
-                int opcao = JOptionPane.showConfirmDialog(
-                        null,
-                        "Deseja fazer outra conversão?",
-                        "Continuar?",
-                        JOptionPane.YES_NO_CANCEL_OPTION
-                );
+                int opcao = JOptionPane.showConfirmDialog(null, "Deseja fazer outra conversão?", "Continuar?", JOptionPane.YES_NO_CANCEL_OPTION);
 
                 if (opcao == JOptionPane.YES_OPTION) {
                     exibirMenu();
                 } else if (opcao == JOptionPane.NO_OPTION) {
                     JOptionPane.showMessageDialog(null, "Programa finalizado.", "Fim do programa", JOptionPane.INFORMATION_MESSAGE);
-                    System.exit(0); //Encerrar programa
+                    System.exit(0);
                 } else if (opcao == JOptionPane.CANCEL_OPTION) {
                     JOptionPane.showMessageDialog(null, "Programa concluído.", "Fim do programa", JOptionPane.INFORMATION_MESSAGE);
-                    System.exit(0); // Encerrar programa
+                    System.exit(0);
                 }
 
-                //agora pode realizar a conversao com o valor, a moeda escolhida
-                // como origem e a moeda escolhida como destino
+
             }
         }
     }
@@ -112,23 +82,15 @@ public class ConversorMoedas {
         boolean entradaValida = false;
 
         while (!entradaValida) {
-            String valorStr = JOptionPane.showInputDialog(
-                    null,
-                    "Digite o valor a ser convertido",
-                    "Conversor de Moedas - Digite o Valor",
-                    JOptionPane.PLAIN_MESSAGE
-            );
+            String valorStr = JOptionPane.showInputDialog(null, "Digite o valor a ser convertido", "Conversor de Moedas - Digite o Valor", JOptionPane.PLAIN_MESSAGE);
 
             if (validarEntradaNumerica(valorStr)) {
                 valor = Double.parseDouble(valorStr);
                 entradaValida = true;
             } else {
-                JOptionPane.showInputDialog(null, "Valor inválido. Digite um valor válido.", "Erro", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Valor inválido. Digite um valor válido.", "Erro", JOptionPane.ERROR_MESSAGE);
             }
         }
-        // Agora pode realizar a conversão com o valor inserido
-        // e a moeda escolhida pelo usuário
-
 
         return valor;
     }
@@ -143,13 +105,27 @@ public class ConversorMoedas {
     }
 
     public static double realizarConversao(double valor, String moedaOrigem, String moedaDestino) {
-        // implemente a lógica real de conversão aqui
-        // retorna o valor convertido
-        return valor * 2.0; //exemplo de conversão fictícia
+        double taxaConversao = 0.0;
+
+        if (moedaOrigem.equals("Real (BRL)") && moedaDestino.equals("Dólar (USD)")) {
+            taxaConversao = 0.2;
+        } else if (moedaOrigem.equals("Dólar (USD)") && moedaDestino.equals("Real (BRL)")) {
+            taxaConversao = 5.0;
+        } else if (moedaOrigem.equals("Real (BRL)") && moedaDestino.equals("Euro (EUR)")) {
+            taxaConversao = 0.18;
+        } else if (moedaOrigem.equals("Euro (EUR)") && moedaDestino.equals("Real (BRL)")) {
+            taxaConversao = 5.5;
+        }
+
+        return valor * taxaConversao;
     }
 
     public static void mostrarResultado(double valorOrigem, String moedaOrigem, double valorDestino, String moedaDestino) {
         String mensagem = String.format("%.2f %s é equivalente a %.2f %s.", valorOrigem, moedaOrigem, valorDestino, moedaDestino);
-        JOptionPane.showInputDialog(null, mensagem, "Resultado da Conversão", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(null, mensagem, "Resultado da Conversão", JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    public static void converterTemperatura() {
+        JOptionPane.showMessageDialog(null, "Função de conversão em manutenção", "Aviso", JOptionPane.WARNING_MESSAGE);
     }
 }
